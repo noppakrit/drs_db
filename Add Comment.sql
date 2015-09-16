@@ -6,6 +6,7 @@ CREATE OR REPLACE FUNCTION add_comments(
 IS
   c_check_tbl_exist_query CLOB;
   c_count_tbl NUMBER;
+  c_max_num_tbl number :=2;
 BEGIN
   /***  Validate table exists  ***/
   c_check_tbl_exist_query := 'select count(1) from USER_OBJECTS WHERE OBJECT_TYPE = ''TABLE'' AND OBJECT_NAME IN (''' || c_source_table_name || ''',''' || c_new_table_name ||''')';
@@ -15,7 +16,7 @@ BEGIN
 
 
   /***  Add Comments  ***/
-  IF c_count_tbl = 2 THEN
+  IF c_count_tbl = c_max_num_tbl THEN
     FOR i IN
     (SELECT 'COMMENT ON COLUMN "'
       || c_owner_name
