@@ -19,12 +19,17 @@ BEGIN
     EXECUTE IMMEDIATE c_drop_tbl_query;
     COMMIT;
   END IF;
+
+
 /***  Generate a create table query  ***/
 SELECT DBMS_METADATA.GET_DDL('TABLE', c_source_tbl_name, c_schema_name)
 INTO c_create_tbl_query
 FROM dual;
-c_create_tbl_query := REPLACE(c_create_tbl_query,c_source_tbl_name, c_new_tbl_name);
-c_create_tbl_query := REPLACE(c_create_tbl_query,';','');
+c_create_tbl_query := REPLACE(c_create_tbl_query, c_source_tbl_name, c_new_tbl_name);
+c_create_tbl_query := REPLACE(c_create_tbl_query, ';', '');
+
+
+
 /***  Execute a create table query  ***/
 EXECUTE IMMEDIATE c_create_tbl_query;
 COMMIT;
