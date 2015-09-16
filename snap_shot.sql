@@ -13,8 +13,11 @@ BEGIN
   /***  Check table exist  ***/
   c_check_tbl_exist_query := 'select count(1) from USER_OBJECTS WHERE OBJECT_TYPE = ''TABLE'' AND OBJECT_NAME   = ''' || c_new_tbl_name || '''';
   EXECUTE IMMEDIATE c_check_tbl_exist_query INTO c_count_tbl;
+  
+  
+  
   /***  Generate a drop table query  ***/
-  IF c_count_tbl      > 0 THEN
+  IF c_count_tbl      = 1 THEN
     c_drop_tbl_query := 'Drop table ' || c_new_tbl_name || ' PURGE';
     EXECUTE IMMEDIATE c_drop_tbl_query;
     COMMIT;
